@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './user-auth/login/login.component';
 import { RegisterComponent } from './user-auth/register/register.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
+import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    RegistrationFormComponent
   ],
   imports: [
     BrowserModule,

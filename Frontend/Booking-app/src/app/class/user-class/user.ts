@@ -7,7 +7,7 @@ export class User implements UserI {
     public userId: string;
     public password?: string;
 
-    constructor(fname: string, lname: string, email: string, userId: string, password: string) {
+    constructor(fname: string = "", lname: string = "", email: string = "", userId: string = "", password: string = "") {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
