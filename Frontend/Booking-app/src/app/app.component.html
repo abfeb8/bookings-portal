@@ -1,9 +1,10 @@
-<h1>Booking Site</h1>
-<nav>
-  <ul>
-    <li><a [routerLink]='["/login"]'>Login</a></li>
-    <li><a [routerLink]='["/register"]'>Sign-Up</a></li>
-  </ul>
-</nav>
+<mat-toolbar>
+  <span>Booking Site</span>
+  <span class="spacer"></span>
+  <button mat-raised-button [routerLink]='["/login"]' class="btn">Login</button>
+  <button mat-raised-button [routerLink]='["/register"]' class="btn">Sign-Up</button>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

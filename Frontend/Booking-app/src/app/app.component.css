@@ -1,0 +1,14 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.btn {
+    max-width: 100px;
+    width: 100%;
+    margin: 0 10px;
+}
+
+.content {
+    width: 100%;
+    padding: 1%;
+}
