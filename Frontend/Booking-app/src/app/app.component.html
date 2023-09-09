@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <span>Booking Site</span>
+  <span class="spacer"></span>
+  <button mat-raised-button [routerLink]='["/login"]' class="btn">Login</button>
+  <button mat-raised-button [routerLink]='["/register"]' class="btn">Sign-Up</button>
+</mat-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
