@@ -9,8 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './user-auth/login/login.component';
-import { RegisterComponent } from './user-auth/register/register.component';
+import { LoginComponent } from './user-auth/component/login/login.component';
+import { RegisterComponent } from './user-auth/component/register/register.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
 
