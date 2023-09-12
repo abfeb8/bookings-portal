@@ -8,7 +8,9 @@
     margin: 0 10px;
 }
 
-.content {
+.body {
     width: 100%;
-    padding: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
