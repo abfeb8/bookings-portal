@@ -1,14 +1,20 @@
 package com.abfeb8.app.booking.users.services;
 
 import com.abfeb8.app.booking.users.dto.*;
+import com.abfeb8.app.booking.users.entity.UserEntity;
+import com.abfeb8.app.booking.users.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class UserService implements UserServiceInterface {
 
+    private final UserRepository userRepository;
+    private final RoleService roleService;
 
     /**
      * Register a new user.
@@ -18,7 +24,18 @@ public class UserService implements UserServiceInterface {
      */
     @Override
     public ResponseEntity<String> registerUser(UserRegistrationRequest registrationRequest) {
-        return null;
+        var newUser = UserEntity.builder()
+                .firstName(registrationRequest.firstName())
+                .lastName(registrationRequest.lastName())
+                .email(registrationRequest.email())
+                .password(registrationRequest.password())
+                .username(registrationRequest.username())
+                .build();
+
+        newUser.setRoles(Set.of(roleService.getUserRole()));
+
+        var savedUser = userRepository.save(newUser);
+        return ResponseEntity.ok(String.format("User create with id: %d", savedUser.getId()));
     }
 
     /**

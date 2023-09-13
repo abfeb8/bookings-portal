@@ -3,7 +3,7 @@ package com.abfeb8.app.booking.users.controller;
 import com.abfeb8.app.booking.users.dto.*;
 import org.springframework.http.ResponseEntity;
 
-public interface UserApiInterface {
+public interface UserManagementApiI {
 
     // User Registration
     ResponseEntity<String> registerUser(UserRegistrationRequest registrationRequest);

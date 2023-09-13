@@ -9,11 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +27,12 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
     private String phoneNumber;
     private String address;
 
@@ -43,6 +46,5 @@ public class UserEntity {
     )
     private Set<RoleEntity> roles = new HashSet<>();
 
-    // Constructors, getters, setters, and other methods
 }
 
