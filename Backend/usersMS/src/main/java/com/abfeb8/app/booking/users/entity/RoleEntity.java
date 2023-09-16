@@ -12,7 +12,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +23,10 @@ public class RoleEntity {
 
     @ManyToMany(mappedBy = "roles")
     private Set<UserEntity> users;
+
+    @Override
+    public String toString() {
+        return String.format("[id: %d, role: \"%s\"]", this.getId(), this.getName());
+    }
 }
 
