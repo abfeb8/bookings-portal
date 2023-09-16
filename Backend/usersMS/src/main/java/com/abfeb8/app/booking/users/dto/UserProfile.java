@@ -2,7 +2,6 @@ package com.abfeb8.app.booking.users.dto;
 
 import com.abfeb8.app.booking.users.entity.UserEntity;
 import lombok.Builder;
-import org.apache.catalina.User;
 
 @Builder
 public record UserProfile(

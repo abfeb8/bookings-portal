@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:userDb
+    url: jdbc:mysql://localhost:3306/booking-portal
     username: user
     password: user
-    driverClassName: org.h2.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
