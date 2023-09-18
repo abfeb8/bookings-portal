@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/class/user-class/user';
+import { UserService } from 'src/app/user-auth/services/user.service';
 
 @Component({
   selector: 'app-registration-form',
@@ -10,17 +11,16 @@ import { User } from 'src/app/class/user-class/user';
 export class RegistrationFormComponent implements OnInit {
 
   registrationForm!: FormGroup;
-  user!: User;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group(
       {
-        fname: ["", Validators.required],
-        lname: ["", Validators.required],
+        firstName: ["", Validators.required],
+        lastName: ["", Validators.required],
         email: ["", Validators.required],
-        userName: ["", Validators.required],
+        username: ["", Validators.required],
         password: ["", Validators.required]
       }
     )
@@ -28,7 +28,14 @@ export class RegistrationFormComponent implements OnInit {
 
   submit() {
     console.log(this.registrationForm);
-    this.user = this.registrationForm.value;
-    console.log(this.user);
+    const user: User = this.registrationForm.value;
+    console.log(user);
+    this.userService.creatUser(user).subscribe(
+      {
+        next: val => console.log('Server Response: ', val),
+        error: err => console.log('Error: ', err),
+        complete: () => console.log("user creation request complete")
+      }
+    )
   }
 }

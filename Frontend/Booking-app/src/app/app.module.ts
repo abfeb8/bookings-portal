@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +14,7 @@ import { LoginComponent } from './user-auth/component/login/login.component';
 import { RegisterComponent } from './user-auth/component/register/register.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { RegistrationFormComponent } from './forms/registration-form/registratio
     MatInputModule,
     MatButtonModule,
     MatGridListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    CommonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

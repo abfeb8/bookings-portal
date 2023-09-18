@@ -1,7 +1,7 @@
 export interface UserI {
-    fname: string;
-    lname: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    userId: string;
+    username: string;
     password?: string;
 }
