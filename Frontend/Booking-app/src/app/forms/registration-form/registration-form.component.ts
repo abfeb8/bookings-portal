@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/class/user-class/user';
-import { UserService } from 'src/app/user-auth/services/user.service';
 
 @Component({
   selector: 'app-registration-form',
@@ -10,9 +9,11 @@ import { UserService } from 'src/app/user-auth/services/user.service';
 })
 export class RegistrationFormComponent implements OnInit {
 
+  @Output() onRegister = new EventEmitter<User>();
+
   registrationForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group(
@@ -30,12 +31,6 @@ export class RegistrationFormComponent implements OnInit {
     console.log(this.registrationForm);
     const user: User = this.registrationForm.value;
     console.log(user);
-    this.userService.creatUser(user).subscribe(
-      {
-        next: val => console.log('Server Response: ', val),
-        error: err => console.log('Error: ', err),
-        complete: () => console.log("user creation request complete")
-      }
-    )
+    this.onRegister.emit(user);
   }
 }
