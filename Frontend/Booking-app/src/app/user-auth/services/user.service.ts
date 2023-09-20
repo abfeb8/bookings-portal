@@ -10,15 +10,12 @@ import { UserLoginRequest } from 'src/app/interfaces/user-login-request';
 })
 export class UserService {
 
-  userUri: string = 'http://localhost:8080';
+  userUri: string = 'http://localhost:8080/user';
 
   constructor(private http: HttpClient) { }
 
   creatUser(user: User): Observable<UserAuthenticationResponse> {
-    return this.http.post<UserAuthenticationResponse>(`${this.userUri}/user/create`, user);
+    return this.http.post<UserAuthenticationResponse>(`${this.userUri}/create`, user);
   }
 
-  login(loginRequest: UserLoginRequest) {
-    return this.http.post<UserAuthenticationResponse>(`${this.userUri}/auth/login`, loginRequest);
-  }
 }

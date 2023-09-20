@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserLoginRequest } from 'src/app/interfaces/user-login-request';
 import { JwtServiceService } from '../../services/jwt-service.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,10 @@ import { JwtServiceService } from '../../services/jwt-service.service';
 })
 export class LoginComponent {
 
-  constructor(private userService: UserService, private jwtService: JwtServiceService) { }
+  constructor(private authService: AuthService, private jwtService: JwtServiceService) { }
 
   login(loginRequest: UserLoginRequest): void {
-    this.userService.login(loginRequest).subscribe(
+    this.authService.login(loginRequest).subscribe(
       {
         next: val => {
           console.log('Server Response: ', val);
