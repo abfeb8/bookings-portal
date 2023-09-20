@@ -35,7 +35,7 @@ public class UserManagementService implements UserManagementServiceInterface, Us
         var savedUser = userRepository.save(newUser);
 
         var authenticationResponse = UserAuthenticationResponse.builder()
-                .userId(savedUser.getId())
+                .username(savedUser.getUsername())
                 .authToken(jwtService.generateToken(UserDetailsDTO.convertToDto(savedUser)))
                 .build();
 

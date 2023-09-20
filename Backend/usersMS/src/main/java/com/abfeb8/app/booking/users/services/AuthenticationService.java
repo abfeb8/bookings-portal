@@ -33,7 +33,7 @@ public class AuthenticationService {
                 .orElseThrow((() -> new UsernameNotFoundException("No user found with username: " + loginRequest.username())));
 
         var authResponse = UserAuthenticationResponse.builder()
-                .userId(user.getId())
+                .username(user.getUsername())
                 .authToken(jwtService.generateToken(UserDetailsDTO.convertToDto(user)))
                 .build();
 

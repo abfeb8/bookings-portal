@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserManagementController implements UserManagementApi {
 
     private final UserManagementServiceInterface userService;
