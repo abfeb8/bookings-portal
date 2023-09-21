@@ -12,7 +12,6 @@ export class User implements UserI {
         this.lastName = lname;
         this.email = email;
         this.username = userId;
-        // TODO: store securely hased and salted 
         this.password = password;
     }
 

@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,8 +17,8 @@ import { LoginComponent } from './user-auth/component/login/login.component';
 import { RegisterComponent } from './user-auth/component/register/register.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { httpInterceptorProviders } from './http-interceptors';
+import { UserComponent } from './user-profile/user/user.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { httpInterceptorProviders } from './http-interceptors';
     LoginComponent,
     RegisterComponent,
     LoginFormComponent,
-    RegistrationFormComponent
+    RegistrationFormComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,9 @@ import { httpInterceptorProviders } from './http-interceptors';
     MatGridListModule,
     MatToolbarModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule,
+    MatDividerModule
   ],
   providers: [
     httpInterceptorProviders

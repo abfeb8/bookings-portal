@@ -19,7 +19,7 @@ export class RegisterComponent {
       {
         next: val => {
           console.log('Server Response: ', val);
-          this.jwtService.saveJwtToken(val.authToken);
+          this.jwtService.saveJwtToken(val);
         },
         error: err => console.log('Error: ', err),
         complete: () => console.log("User creation request complete")

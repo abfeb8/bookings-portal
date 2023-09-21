@@ -18,4 +18,8 @@ export class UserService {
     return this.http.post<UserAuthenticationResponse>(`${this.userUri}/create`, user);
   }
 
+  getUser(username: string): Observable<User> {
+    return this.http.get<User>(`${this.userUri}/profile/${username}`);
+  }
+
 }
