@@ -15,6 +15,7 @@ export class RegisterComponent {
   constructor(private userService: UserService, private jwtService: JwtServiceService) { }
 
   registerUser(newUser: User): void {
+    this.jwtService.clearSession();
     this.userService.creatUser(newUser).subscribe(
       {
         next: val => {

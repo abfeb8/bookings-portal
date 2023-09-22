@@ -19,6 +19,7 @@ import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
 import { httpInterceptorProviders } from './http-interceptors';
 import { UserComponent } from './user-profile/user/user.component';
+import { HomeComponent } from './home/component/home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { UserComponent } from './user-profile/user/user.component';
     RegisterComponent,
     LoginFormComponent,
     RegistrationFormComponent,
-    UserComponent
+    UserComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

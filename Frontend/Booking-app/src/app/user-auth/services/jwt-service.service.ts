@@ -19,4 +19,9 @@ export class JwtServiceService {
   getJwtToken(): string | null {
     return localStorage.getItem(this.jwtTokenKey);
   }
+
+  clearSession() {
+    localStorage.removeItem(this.jwtTokenKey);
+    localStorage.removeItem(this.loggedInUserKey);
+  }
 }
