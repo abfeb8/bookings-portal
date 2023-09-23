@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { UserLoginRequest } from 'src/app/interfaces/user-login-request';
 import { JwtServiceService } from '../../services/jwt-service.service';
 import { AuthService } from '../../services/auth.service';
@@ -24,8 +22,8 @@ export class LoginComponent {
         },
         error: err => console.log('Error: ', err),
         complete: () => {
-          console.log("User login request complete")
-          this.router.navigate(['/user-profile'])
+          console.log("User login request complete, navigating to /home")
+          this.router.navigate(['/home'])
         }
       }
     )

@@ -1,9 +1,10 @@
 <mat-toolbar>
-    <span>Booking Site</span>
+    <span><a [routerLink]='["/home"]'>Booking Site</a></span>
     <span class="spacer"></span>
     <button mat-raised-button [routerLink]='["/login"]' class="btn" *ngIf="!isUserLoggedIn()">Login</button>
     <button mat-raised-button [routerLink]='["/register"]' class="btn" *ngIf="!isUserLoggedIn()">Sign-Up</button>
     <button mat-raised-button class="btn" *ngIf="isUserLoggedIn()" (click)="logout()">Logout</button>
+    <button mat-raised-button class="btn" *ngIf="isUserLoggedIn()" [routerLink]='["/profile"]'>Profile</button>
 </mat-toolbar>
 
 <div class="body">
