@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/class/user-class/user';
 
@@ -9,18 +9,19 @@ import { User } from 'src/app/class/user-class/user';
 })
 export class RegistrationFormComponent implements OnInit {
 
+  @Output() onRegister = new EventEmitter<User>();
+
   registrationForm!: FormGroup;
-  user!: User;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group(
       {
-        fname: ["", Validators.required],
-        lname: ["", Validators.required],
+        firstName: ["", Validators.required],
+        lastName: ["", Validators.required],
         email: ["", Validators.required],
-        userName: ["", Validators.required],
+        username: ["", Validators.required],
         password: ["", Validators.required]
       }
     )
@@ -28,7 +29,8 @@ export class RegistrationFormComponent implements OnInit {
 
   submit() {
     console.log(this.registrationForm);
-    this.user = this.registrationForm.value;
-    console.log(this.user);
+    const user: User = this.registrationForm.value;
+    console.log(user);
+    this.onRegister.emit(user);
   }
 }

@@ -1,25 +1,23 @@
 import { UserI } from "src/app/interfaces/user-i"
 
 export class User implements UserI {
-    public fname: string;
-    public lname: string;
+    public firstName: string;
+    public lastName: string;
     public email: string;
-    public userId: string;
+    public username: string;
     public password?: string;
 
     constructor(fname: string = "", lname: string = "", email: string = "", userId: string = "", password: string = "") {
-        this.fname = fname;
-        this.lname = lname;
+        this.firstName = fname;
+        this.lastName = lname;
         this.email = email;
-        this.userId = userId;
-        // TODO: store securely hased and salted 
+        this.username = userId;
         this.password = password;
     }
 
-
     public getName(defaultVal: string = ""): string {
-        if (this.fname != undefined && this.lname != undefined)
-            return `${this.fname} ${this.lname}`;
+        if (this.firstName != undefined && this.lastName != undefined)
+            return `${this.firstName} ${this.lastName}`;
         else
             return defaultVal;
     }

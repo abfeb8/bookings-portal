@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserLoginRequest } from 'src/app/interfaces/user-login-request';
 
 @Component({
   selector: 'app-login-form',
@@ -8,14 +9,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginFormComponent implements OnInit {
 
+  @Output() onLogin = new EventEmitter<UserLoginRequest>();
+
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group(
       {
-        userName: ["", Validators.required],
+        username: ["", Validators.required],
         password: ["", Validators.required]
       }
     )
@@ -23,6 +26,11 @@ export class LoginFormComponent implements OnInit {
 
   submit() {
     console.log(this.loginForm);
+
+    const loginRequest: UserLoginRequest = this.loginForm.value;
+    console.log(loginRequest);
+
+    this.onLogin.emit(loginRequest);
   }
 
 }
