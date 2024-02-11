@@ -3,7 +3,7 @@ package com.abfeb8.app.booking.users.dto;
 import lombok.Builder;
 
 @Builder
-public record UserAuthenticationResponse(
+public record AuthenticationResponse(
         String authToken,
         String username
 ) {}

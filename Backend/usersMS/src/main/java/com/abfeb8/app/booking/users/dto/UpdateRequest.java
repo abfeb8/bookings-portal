@@ -1,6 +1,6 @@
 package com.abfeb8.app.booking.users.dto;
 
-public record UserProfileUpdateRequest(
+public record UpdateRequest(
         String firstName,
         String lastName,
         String phoneNumber,

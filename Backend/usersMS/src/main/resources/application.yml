@@ -1,14 +1,14 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/booking-portal
-    username: user
-    password: user
+    url: jdbc:mysql://localhost:3306/user_repo
+    username: root
+    password: password
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       # New database is created when app starts and destroyed when app stops
-      ddl-auto: create-drop
+      ddl-auto: create
       # Show sql when spring data jpa performs query
       show-sql: true
       properties:

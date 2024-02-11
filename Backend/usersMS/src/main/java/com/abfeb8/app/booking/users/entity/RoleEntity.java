@@ -2,8 +2,13 @@ package com.abfeb8.app.booking.users.entity;
 
 import com.abfeb8.app.booking.users.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -27,6 +32,10 @@ public class RoleEntity {
     @Override
     public String toString() {
         return String.format("[id: %d, role: \"%s\"]", this.getId(), this.getName());
+    }
+
+    public SimpleGrantedAuthority getGrantedAuthority() {
+        return new SimpleGrantedAuthority(this.name.toString());
     }
 }
 

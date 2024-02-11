@@ -1,6 +1,8 @@
-package com.abfeb8.app.booking.users.services;
+package com.abfeb8.app.booking.users.services.impl;
 
+import com.abfeb8.app.booking.users.services.specs.JwtService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -18,6 +20,9 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
 
     private static final String JWT_SIGNING_KEY = "dfwerueihfknvedfweirjwieljlksxjcklsadjsklfjsdklxcnsd";
+    private static final JwtParser jwtParser = Jwts.parserBuilder()
+            .setSigningKey(getSigningKey())
+            .build();
 
     @Override
     public String extractUserName(String token) {
@@ -32,7 +37,8 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return userName.equals(userDetails.getUsername())
+                && !isTokenExpired(token);
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
@@ -48,7 +54,8 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        return extractExpiration(token)
+                .before(new Date());
     }
 
     private Date extractExpiration(String token) {
@@ -56,13 +63,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey()).build()
+        return jwtParser
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    private Key getSigningKey() {
+    private static Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SIGNING_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }

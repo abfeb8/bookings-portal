@@ -1,6 +1,6 @@
 package com.abfeb8.app.booking.users.components;
 
-import com.abfeb8.app.booking.users.services.JwtService;
+import com.abfeb8.app.booking.users.services.specs.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,10 +30,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
+
         if (!StringUtils.startsWith(authHeader, "Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+
         jwt = authHeader.substring(7);
         username = jwtService.extractUserName(jwt);
         if (StringUtils.isNotEmpty(username)
@@ -42,14 +44,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                context.setAuthentication(authToken);
+                SecurityContext context = creatSecurityContext(request, userDetails);
                 SecurityContextHolder.setContext(context);
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private static SecurityContext creatSecurityContext(HttpServletRequest request, UserDetails userDetails) {
+        var context = SecurityContextHolder.createEmptyContext();
+        var authToken = getUsernamePasswordAuthenticationToken(request, userDetails);
+        context.setAuthentication(authToken);
+        return context;
+    }
+
+    private static UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(HttpServletRequest request, UserDetails userDetails) {
+        var authToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authToken;
     }
 }

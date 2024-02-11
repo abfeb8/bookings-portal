@@ -4,7 +4,7 @@ import com.abfeb8.app.booking.users.entity.UserEntity;
 import lombok.Builder;
 
 @Builder
-public record UserProfile(
+public record UserDto(
         Long userId,
         String firstName,
         String lastName,
@@ -14,8 +14,8 @@ public record UserProfile(
         String address
         // Other user profile information
 ) {
-    public static UserProfile convertToUserProfile(UserEntity userEntity) {
-        return UserProfile.builder()
+    public static UserDto convertToUserProfile(UserEntity userEntity) {
+        return UserDto.builder()
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
                 .userId(userEntity.getId())

@@ -1,4 +1,4 @@
-package com.abfeb8.app.booking.users.services;
+package com.abfeb8.app.booking.users.services.impl;
 
 import com.abfeb8.app.booking.users.entity.RoleEntity;
 import com.abfeb8.app.booking.users.enums.UserRole;

@@ -1,6 +1,6 @@
 package com.abfeb8.app.booking.users.dto;
 
-public record UserRegistrationRequest(
+public record RegistrationRequest(
         String firstName,
         String lastName,
         String email,
