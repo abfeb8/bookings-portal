@@ -4,7 +4,6 @@ import com.abfeb8.app.booking.users.dto.PasswordResetRequest;
 import com.abfeb8.app.booking.users.dto.RegistrationRequest;
 import com.abfeb8.app.booking.users.dto.UpdateRequest;
 import com.abfeb8.app.booking.users.dto.UserDto;
-import org.springframework.http.ResponseEntity;
 
 /**
  * Service interface for Users CRUD operations.
@@ -17,7 +16,7 @@ public interface UserManagementService {
      * @param registrationRequest request containing user registration details.
      * @return A response indicating the success or failure of the registration.
      */
-    ResponseEntity<UserDto> registerUser(RegistrationRequest registrationRequest);
+    UserDto registerUser(RegistrationRequest registrationRequest);
 
     /**
      * retrieve user's information.
@@ -25,7 +24,7 @@ public interface UserManagementService {
      * @param username username for the corresponding user.
      * @return UserDTO.
      */
-    ResponseEntity<UserDto> getUser(String username);
+    UserDto getUser(String username);
 
     /**
      * update user's information.
@@ -34,7 +33,7 @@ public interface UserManagementService {
      * @param updateRequest request containing updated user information.
      * @return updated user profile.
      */
-    ResponseEntity<UserDto> updateUserProfile(Long userId, UpdateRequest updateRequest);
+    UserDto updateUserProfile(Long userId, UpdateRequest updateRequest);
 
     /**
      * reset user password.
@@ -42,7 +41,7 @@ public interface UserManagementService {
      * @param resetRequest request containing user's email, new and old password.
      * @return A response indicating the success or failure of the password reset request.
      */
-    ResponseEntity<String> resetPassword(PasswordResetRequest resetRequest);
+    String resetPassword(PasswordResetRequest resetRequest);
 
 }
 

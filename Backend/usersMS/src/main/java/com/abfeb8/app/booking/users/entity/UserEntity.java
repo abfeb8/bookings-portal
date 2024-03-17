@@ -52,7 +52,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.roles == null) {
+        if (this.roles == null) {
             return Collections.emptyList();
         }
 

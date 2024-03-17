@@ -5,8 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +14,27 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private static final String JWT_SIGNING_KEY = "dfwerueihfknvedfweirjwieljlksxjcklsadjsklfjsdklxcnsd";
-    private static final JwtParser jwtParser = Jwts.parserBuilder()
-            .setSigningKey(getSigningKey())
-            .build();
+    private final JwtParser jwtParser;
+    @Qualifier("jwtSigningKey")
+    private final Key jwtSigningKey;
+    @Qualifier("jwtExpMin")
+    private final long jwtExpHrs;
+
+    public JwtServiceImpl(
+            @Autowired JwtParser jwtParser,
+            @Autowired Key jwtSigningKey,
+            @Autowired String jwtExpHrs
+    ) {
+        this.jwtParser = jwtParser;
+        this.jwtSigningKey = jwtSigningKey;
+        this.jwtExpHrs = Long.parseLong(jwtExpHrs);
+    }
 
     @Override
     public String extractUserName(String token) {
@@ -47,10 +59,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
+        return Jwts.builder()
+                .setIssuer("com.abfeb8.ms.user")
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(jwtExpHrs)))
+                .signWith(jwtSigningKey, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     private boolean isTokenExpired(String token) {
@@ -68,8 +84,4 @@ public class JwtServiceImpl implements JwtService {
                 .getBody();
     }
 
-    private static Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(JWT_SIGNING_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
 }

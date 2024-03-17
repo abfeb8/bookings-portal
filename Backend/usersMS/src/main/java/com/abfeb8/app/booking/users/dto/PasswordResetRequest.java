@@ -4,4 +4,5 @@ public record PasswordResetRequest(
         String email,
         String oldPassword,
         String newPassword
-) {}
+) {
+}

@@ -6,11 +6,9 @@ import com.abfeb8.app.booking.users.dto.UpdateRequest;
 import com.abfeb8.app.booking.users.dto.UserDto;
 import com.abfeb8.app.booking.users.entity.UserEntity;
 import com.abfeb8.app.booking.users.repository.UserRepository;
-import com.abfeb8.app.booking.users.services.specs.JwtService;
 import com.abfeb8.app.booking.users.services.specs.UserManagementService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +25,6 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final JwtService jwtService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @PostConstruct
@@ -47,28 +44,28 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     @Override
-    public ResponseEntity<UserDto> registerUser(RegistrationRequest registrationRequest) {
+    public UserDto registerUser(RegistrationRequest registrationRequest) {
         var newUser = createUserEntity(registrationRequest);
 
         var savedUser = userRepository.save(newUser);
 
-        return ResponseEntity.ok(UserDto.convertToUserProfile(savedUser));
+        return UserDto.convertToUserProfile(savedUser);
     }
 
     @Override
-    public ResponseEntity<UserDto> getUser(String username) {
+    public UserDto getUser(String username) {
         var userEntity = getUserByUserName(username);
 
-        return ResponseEntity.ok(UserDto.convertToUserProfile(userEntity));
+        return UserDto.convertToUserProfile(userEntity);
     }
 
     @Override
-    public ResponseEntity<UserDto> updateUserProfile(Long userId, UpdateRequest updateRequest) {
+    public UserDto updateUserProfile(Long userId, UpdateRequest updateRequest) {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> resetPassword(PasswordResetRequest resetRequest) {
+    public String resetPassword(PasswordResetRequest resetRequest) {
         return null;
     }
 

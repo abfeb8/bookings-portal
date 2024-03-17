@@ -21,18 +21,24 @@ public class AuthenticationController implements AuthenticationApi {
     @PostMapping("/login")
     @Override
     public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
-        return authenticationService.login(loginRequest);
+        return ResponseEntity.ok(
+                authenticationService.login(loginRequest)
+        );
     }
 
     @PostMapping("/logout")
     @Override
     public ResponseEntity<AuthenticationResponse> logout(@RequestBody String authToken) {
-        return authenticationService.logout(authToken);
+        return ResponseEntity.ok(
+                authenticationService.logout(authToken)
+        );
     }
 
     @PostMapping("/signup")
     @Override
     public ResponseEntity<UserDto> signup(@RequestBody RegistrationRequest registrationRequest) {
-        return authenticationService.signup(registrationRequest);
+        return ResponseEntity.ok(
+                authenticationService.signup(registrationRequest)
+        );
     }
 }

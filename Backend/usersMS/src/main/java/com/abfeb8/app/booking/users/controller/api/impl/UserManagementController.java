@@ -21,13 +21,13 @@ public class UserManagementController implements UserManagementApi {
     @PostMapping("create")
     @Override
     public ResponseEntity<UserDto> registerUser(@RequestBody RegistrationRequest registrationRequest) {
-        return userService.registerUser(registrationRequest);
+        return ResponseEntity.ok(userService.registerUser(registrationRequest));
     }
 
     @GetMapping("profile/{username}")
     @Override
     public ResponseEntity<UserDto> getUserProfile(@PathVariable String username) {
-        return userService.getUser(username);
+        return ResponseEntity.ok(userService.getUser(username));
     }
 
     @PostMapping("profile/update/{username}")

@@ -6,4 +6,5 @@ public record UpdateRequest(
         String phoneNumber,
         String address
         // Other fields for updating the profile
-) {}
+) {
+}

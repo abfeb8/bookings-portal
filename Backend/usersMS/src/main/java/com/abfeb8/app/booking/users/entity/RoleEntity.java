@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity

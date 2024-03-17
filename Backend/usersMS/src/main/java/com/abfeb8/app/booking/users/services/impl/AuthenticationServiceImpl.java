@@ -8,7 +8,6 @@ import com.abfeb8.app.booking.users.services.specs.AuthenticationService;
 import com.abfeb8.app.booking.users.services.specs.JwtService;
 import com.abfeb8.app.booking.users.services.specs.UserManagementService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,28 +24,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public ResponseEntity<AuthenticationResponse> login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
 
         var userDetails = userDetailsService.loadUserByUsername(loginRequest.username());
 
-        var authResponse = AuthenticationResponse.builder()
+        return AuthenticationResponse.builder()
                 .username(userDetails.getUsername())
                 .authToken(jwtService.generateToken(userDetails))
                 .build();
-
-        return ResponseEntity.ok(authResponse);
     }
 
     @Override
-    public ResponseEntity<UserDto> signup(RegistrationRequest registrationRequest) {
+    public UserDto signup(RegistrationRequest registrationRequest) {
         return userManagementService.registerUser(registrationRequest);
     }
 
     @Override
-    public ResponseEntity<AuthenticationResponse> logout(String jwt) {
+    public AuthenticationResponse logout(String jwt) {
         return null;
     }
 
