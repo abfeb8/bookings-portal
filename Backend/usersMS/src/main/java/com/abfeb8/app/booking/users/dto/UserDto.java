@@ -20,8 +20,8 @@ public record UserDto(
                 .lastName(userEntity.getLastName())
                 .userId(userEntity.getId())
                 .username(userEntity.getUsername())
-                .email(userEntity.getEmail())
-                .phoneNumber(userEntity.getPhoneNumber())
+                .email(userEntity.getContact().getEmail())
+                .phoneNumber(userEntity.getContact().getPhoneNumber())
                 .build();
     }
 }

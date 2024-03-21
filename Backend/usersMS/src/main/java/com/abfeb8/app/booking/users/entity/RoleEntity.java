@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -16,7 +18,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RoleEntity {
+public class RoleEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 124540L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

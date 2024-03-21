@@ -27,20 +27,18 @@ public class UserEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
     @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
     private String lastName;
 
-    private String phoneNumber;
-    private String address;
+    @Column(nullable = false)
+    private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    private ContactEntity contact;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

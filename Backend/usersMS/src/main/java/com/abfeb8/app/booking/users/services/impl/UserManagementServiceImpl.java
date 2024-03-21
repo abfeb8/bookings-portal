@@ -4,6 +4,7 @@ import com.abfeb8.app.booking.users.dto.PasswordResetRequest;
 import com.abfeb8.app.booking.users.dto.RegistrationRequest;
 import com.abfeb8.app.booking.users.dto.UpdateRequest;
 import com.abfeb8.app.booking.users.dto.UserDto;
+import com.abfeb8.app.booking.users.entity.ContactEntity;
 import com.abfeb8.app.booking.users.entity.UserEntity;
 import com.abfeb8.app.booking.users.repository.UserRepository;
 import com.abfeb8.app.booking.users.services.specs.UserManagementService;
@@ -33,11 +34,17 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
                 .firstName("Abhishek")
                 .lastName("Malviya")
                 .username("abfeb8")
-                .email("abfeb8@gmail.com")
-                .phoneNumber("9589747474")
-                .address("Abhishek Auto Parts")
+                .contact(ContactEntity.builder()
+                        .email("abfeb8@gmail.com")
+                        .phoneNumber("9589747474")
+                        .address("Indore")
+                        .build()
+                )
                 .password(bCryptPasswordEncoder.encode("1234"))
-                .roles(Set.of(roleService.getUserRole()))
+                .roles(Set.of(
+                        roleService.getUserRole(),
+                        roleService.getAdminRole()
+                ))
                 .build();
 
         userRepository.save(user);
@@ -85,9 +92,12 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
         return UserEntity.builder()
                 .firstName(registrationRequest.firstName())
                 .lastName(registrationRequest.lastName())
-                .email(registrationRequest.email())
-                .password(bCryptPasswordEncoder.encode(registrationRequest.password()))
                 .username(registrationRequest.username())
+                .contact(ContactEntity.builder()
+                        .email(registrationRequest.email())
+                        .build()
+                )
+                .password(bCryptPasswordEncoder.encode(registrationRequest.password()))
                 .roles(Set.of(roleService.getUserRole()))
                 .build();
     }
