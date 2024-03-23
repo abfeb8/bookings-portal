@@ -68,17 +68,18 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     @Override
-    public UserDto updateUserProfile(Long userId, UpdateRequest updateRequest) {
+    public UserDto updateUserProfile(String userId, UpdateRequest updateRequest) {
         if (userId == null || updateRequest == null) {
             throw new RuntimeException("userId/updateRequest are required");
         }
 
-        var userEntity = this.getUserById(userId);
+        var userEntity = this.getUserByUserName(userId);
 
         updateUserAddress(userEntity, updateRequest.address());
         updateUserPhone(userEntity, updateRequest.phoneNumber());
 
-        return null;
+        userEntity = userRepository.save(userEntity);
+        return UserDto.convertToUserProfile(userEntity);
     }
 
     private void updateUserAddress(@NonNull UserEntity userEntity, @Nullable String address) {
@@ -102,7 +103,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
             userEntity.setContact(new ContactEntity());
         }
 
-        userEntity.getContact().setAddress(phoneNum);
+        userEntity.getContact().setPhoneNumber(phoneNum);
     }
 
     @Override
@@ -120,11 +121,6 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     private UserEntity getUserByUserName(@NonNull String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow((() -> new RuntimeException("no user found for username: " + username)));
-    }
-
-    private UserEntity getUserById(@NonNull Long id) {
-        return userRepository.findById(id)
-                .orElseThrow((() -> new RuntimeException("no user found for id: " + id)));
     }
 
     private UserEntity createUserEntity(RegistrationRequest registrationRequest) {

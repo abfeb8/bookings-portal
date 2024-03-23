@@ -33,7 +33,7 @@ public class UserManagementController implements UserManagementApi {
     @PostMapping("profile/update/{username}")
     @Override
     public ResponseEntity<UserDto> updateUserProfile(@PathVariable String username, @RequestBody UpdateRequest updateRequest) {
-        return null;
+        return ResponseEntity.ok(userService.updateUserProfile(username, updateRequest));
     }
 
     @PostMapping("password/reset")

@@ -22,6 +22,7 @@ public record UserDto(
                 .username(userEntity.getUsername())
                 .email(userEntity.getContact().getEmail())
                 .phoneNumber(userEntity.getContact().getPhoneNumber())
+                .address(userEntity.getContact().getAddress())
                 .build();
     }
 }

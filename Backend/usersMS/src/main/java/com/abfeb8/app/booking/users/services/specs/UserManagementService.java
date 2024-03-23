@@ -33,7 +33,7 @@ public interface UserManagementService {
      * @param updateRequest request containing updated user information.
      * @return updated user profile.
      */
-    UserDto updateUserProfile(Long userId, UpdateRequest updateRequest);
+    UserDto updateUserProfile(String userId, UpdateRequest updateRequest);
 
     /**
      * reset user password.
