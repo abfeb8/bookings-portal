@@ -26,7 +26,7 @@ public class ContactEntity implements Serializable {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true, nullable = false)
+    @Column
     private String phoneNumber;
 
     @Column

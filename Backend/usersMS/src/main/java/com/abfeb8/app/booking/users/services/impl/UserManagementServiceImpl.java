@@ -27,7 +27,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostConstruct
     void init() {
@@ -53,7 +53,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     @Override
     public UserDto registerUser(RegistrationRequest registrationRequest) {
-        var newUser = createUserEntity(registrationRequest);
+        var newUser = this.createUserEntity(registrationRequest);
 
         var savedUser = userRepository.save(newUser);
 
@@ -69,7 +69,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     @Override
     public UserDto updateUserProfile(Long userId, UpdateRequest updateRequest) {
-        if(userId == null || updateRequest == null) {
+        if (userId == null || updateRequest == null) {
             throw new RuntimeException("userId/updateRequest are required");
         }
 
@@ -82,11 +82,11 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     private void updateUserAddress(@NonNull UserEntity userEntity, @Nullable String address) {
-        if(address == null) {
+        if (address == null) {
             return;
         }
 
-        if(userEntity.getContact() == null) {
+        if (userEntity.getContact() == null) {
             userEntity.setContact(new ContactEntity());
         }
 
@@ -94,11 +94,11 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     private void updateUserPhone(UserEntity userEntity, String phoneNum) {
-        if(phoneNum == null) {
+        if (phoneNum == null) {
             return;
         }
 
-        if(userEntity.getContact() == null) {
+        if (userEntity.getContact() == null) {
             userEntity.setContact(new ContactEntity());
         }
 

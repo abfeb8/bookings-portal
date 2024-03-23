@@ -25,6 +25,7 @@ public class WebSecurityConfig {
 
     private final UserDetailsService userService;
     private final JwtAuthFilter jwtAuthFilter;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private static final String[] AUTH_WHITE_LIST = {
             "/user/create",
@@ -34,11 +35,6 @@ public class WebSecurityConfig {
             "/swagger-resources/**",
             "/actuator"
     };
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,7 +57,7 @@ public class WebSecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authProvider;
     }
 

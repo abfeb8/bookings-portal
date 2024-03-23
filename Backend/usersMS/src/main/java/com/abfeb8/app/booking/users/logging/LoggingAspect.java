@@ -13,13 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    private static final String SERVICE_POINT_CUT = "execution(* com.abfeb8.app.booking.users.services..*(..))";
     private static final String CONTROLLER_POINT_CUT = "execution(* com.abfeb8.app.booking.users.controller..*(..))";
+    private static final String SERVICE_POINT_CUT = "execution(* com.abfeb8.app.booking.users.services..*(..))";
+    private static final String REPOSITORY_POINT_CUT = "execution(* com.abfeb8.app.booking.users.repository..*(..))";
     private static final String OR = " || ";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Pointcut(CONTROLLER_POINT_CUT + OR + SERVICE_POINT_CUT)
+    @Pointcut(CONTROLLER_POINT_CUT
+            + OR + SERVICE_POINT_CUT
+            + OR + REPOSITORY_POINT_CUT
+    )
     public void applicationPackagePointcut() {}
 
     @Before("applicationPackagePointcut()")
