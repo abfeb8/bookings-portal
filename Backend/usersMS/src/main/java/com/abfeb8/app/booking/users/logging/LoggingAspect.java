@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    private static final String CONTROLLER_POINT_CUT = "execution(* com.abfeb8.app.booking.users.controller..*(..))";
-    private static final String SERVICE_POINT_CUT = "execution(* com.abfeb8.app.booking.users.services..*(..))";
-    private static final String REPOSITORY_POINT_CUT = "execution(* com.abfeb8.app.booking.users.repository..*(..))";
+    private static final String CONTROLLER_POINT_CUT = "execution(public * com.abfeb8.app.booking.users.controller..*(..))";
+    private static final String SERVICE_POINT_CUT = "execution(public * com.abfeb8.app.booking.users.services..*(..))";
+    private static final String REPOSITORY_POINT_CUT = "execution(public * com.abfeb8.app.booking.users.repository..*(..))";
     private static final String OR = " || ";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
