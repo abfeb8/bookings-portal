@@ -11,7 +11,6 @@ import com.abfeb8.app.booking.users.services.specs.UserManagementService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,57 +52,55 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     @Override
     public UserDto registerUser(RegistrationRequest registrationRequest) {
-        var newUser = this.createUserEntity(registrationRequest);
+        if (registrationRequest == null) {
+            throw new RuntimeException("registration request can not be null");
+        }
 
-        var savedUser = userRepository.save(newUser);
-
-        return UserDto.convertToUserProfile(savedUser);
+        return Optional.of(registrationRequest)
+                .map(this::createUserEntity)
+                .map(userRepository::save)
+                .map(UserDto::convertToDto)
+                .orElseThrow(() -> new RuntimeException("failed to register new user"));
     }
 
     @Override
     public UserDto getUser(String username) {
-        var userEntity = this.getUserByUserName(username);
+        if (username == null) {
+            throw new RuntimeException("username can not be null");
+        }
 
-        return UserDto.convertToUserProfile(userEntity);
+        return Optional.of(username)
+                .map(this::getUserByUserName)
+                .map(UserDto::convertToDto)
+                .orElseThrow(() -> new RuntimeException(String.format("failed to fetch user %s", username)));
     }
 
     @Override
-    public UserDto updateUserProfile(String userId, UpdateRequest updateRequest) {
-        if (userId == null || updateRequest == null) {
-            throw new RuntimeException("userId/updateRequest are required");
+    public UserDto updateUserProfile(String userName, UpdateRequest updateRequest) {
+        if (userName == null || updateRequest == null) {
+            throw new RuntimeException("userName/updateRequest are required");
         }
 
-        var userEntity = this.getUserByUserName(userId);
-
-        updateUserAddress(userEntity, updateRequest.address());
-        updateUserPhone(userEntity, updateRequest.phoneNumber());
-
-        userEntity = userRepository.save(userEntity);
-        return UserDto.convertToUserProfile(userEntity);
+        return Optional.of(userName)
+                .map(this::getUserByUserName)
+                .map(userEntity -> updateUserContact(userEntity, updateRequest))
+                .map(userRepository::save)
+                .map(UserDto::convertToDto)
+                .orElseThrow(() -> new RuntimeException("error while updating user details"));
     }
 
-    private void updateUserAddress(@NonNull UserEntity userEntity, @Nullable String address) {
-        if (address == null) {
-            return;
-        }
+    private UserEntity updateUserContact(
+            @NonNull UserEntity userEntity,
+            @NonNull UpdateRequest updateRequest) {
 
-        if (userEntity.getContact() == null) {
-            userEntity.setContact(new ContactEntity());
-        }
+        var contact = userEntity.getContact();
+        Optional.ofNullable(updateRequest.address())
+                .ifPresent(contact::setAddress);
 
-        userEntity.getContact().setAddress(address);
-    }
+        Optional.ofNullable(updateRequest.phoneNumber())
+                .ifPresent(contact::setPhoneNumber);
 
-    private void updateUserPhone(UserEntity userEntity, String phoneNum) {
-        if (phoneNum == null) {
-            return;
-        }
-
-        if (userEntity.getContact() == null) {
-            userEntity.setContact(new ContactEntity());
-        }
-
-        userEntity.getContact().setPhoneNumber(phoneNum);
+        return userEntity;
     }
 
     @Override
@@ -119,7 +116,8 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     private UserEntity getUserByUserName(@NonNull String username) {
-        return userRepository.findByUsername(username)
+        return Optional.of(username)
+                .flatMap(userRepository::findByUsername)
                 .orElseThrow((() -> new RuntimeException("no user found for username: " + username)));
     }
 

@@ -14,7 +14,7 @@ public record UserDto(
         String address
         // Other user profile information
 ) {
-    public static UserDto convertToUserProfile(UserEntity userEntity) {
+    public static UserDto convertToDto(UserEntity userEntity) {
         return UserDto.builder()
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
