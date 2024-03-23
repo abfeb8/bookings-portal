@@ -10,6 +10,7 @@ import com.abfeb8.app.booking.users.services.specs.UserManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse login(LoginRequest loginRequest) {
-        authenticationManager.authenticate(
+        var authenticationResponse = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
         );
 
-        var userDetails = userDetailsService.loadUserByUsername(loginRequest.username());
+        var userDetails = (UserDetails) authenticationResponse.getPrincipal();
 
         return AuthenticationResponse.builder()
                 .username(userDetails.getUsername())
