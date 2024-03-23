@@ -11,6 +11,7 @@ import com.abfeb8.app.booking.users.services.specs.UserManagementService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -61,14 +62,47 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     @Override
     public UserDto getUser(String username) {
-        var userEntity = getUserByUserName(username);
+        var userEntity = this.getUserByUserName(username);
 
         return UserDto.convertToUserProfile(userEntity);
     }
 
     @Override
     public UserDto updateUserProfile(Long userId, UpdateRequest updateRequest) {
+        if(userId == null || updateRequest == null) {
+            throw new RuntimeException("userId/updateRequest are required");
+        }
+
+        var userEntity = this.getUserById(userId);
+
+        updateUserAddress(userEntity, updateRequest.address());
+        updateUserPhone(userEntity, updateRequest.phoneNumber());
+
         return null;
+    }
+
+    private void updateUserAddress(@NonNull UserEntity userEntity, @Nullable String address) {
+        if(address == null) {
+            return;
+        }
+
+        if(userEntity.getContact() == null) {
+            userEntity.setContact(new ContactEntity());
+        }
+
+        userEntity.getContact().setAddress(address);
+    }
+
+    private void updateUserPhone(UserEntity userEntity, String phoneNum) {
+        if(phoneNum == null) {
+            return;
+        }
+
+        if(userEntity.getContact() == null) {
+            userEntity.setContact(new ContactEntity());
+        }
+
+        userEntity.getContact().setAddress(phoneNum);
     }
 
     @Override
@@ -86,6 +120,11 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     private UserEntity getUserByUserName(@NonNull String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow((() -> new RuntimeException("no user found for username: " + username)));
+    }
+
+    private UserEntity getUserById(@NonNull Long id) {
+        return userRepository.findById(id)
+                .orElseThrow((() -> new RuntimeException("no user found for id: " + id)));
     }
 
     private UserEntity createUserEntity(RegistrationRequest registrationRequest) {
