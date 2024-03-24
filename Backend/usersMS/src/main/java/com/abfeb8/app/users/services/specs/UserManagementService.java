@@ -1,6 +1,5 @@
 package com.abfeb8.app.users.services.specs;
 
-import com.abfeb8.app.users.dto.PasswordResetRequest;
 import com.abfeb8.app.users.dto.RegistrationRequest;
 import com.abfeb8.app.users.dto.UpdateRequest;
 import com.abfeb8.app.users.dto.UserDto;
@@ -29,11 +28,10 @@ public interface UserManagementService {
     /**
      * update user's information.
      *
-     * @param userId        ID of user.
      * @param updateRequest request containing updated user information.
      * @return updated user profile.
      */
-    UserDto updateUserProfile(String userId, UpdateRequest updateRequest);
+    UserDto updateUserProfile(UpdateRequest updateRequest);
 
     /**
      * reset user password.
@@ -41,7 +39,7 @@ public interface UserManagementService {
      * @param resetRequest request containing user's email, new and old password.
      * @return A response indicating the success or failure of the password reset request.
      */
-    String resetPassword(PasswordResetRequest resetRequest);
+    String resetPassword(UpdateRequest resetRequest);
 
 }
 

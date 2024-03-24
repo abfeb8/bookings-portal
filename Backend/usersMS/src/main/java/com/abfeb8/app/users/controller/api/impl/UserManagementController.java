@@ -1,7 +1,6 @@
 package com.abfeb8.app.users.controller.api.impl;
 
 import com.abfeb8.app.users.controller.api.specs.UserManagementApi;
-import com.abfeb8.app.users.dto.PasswordResetRequest;
 import com.abfeb8.app.users.dto.RegistrationRequest;
 import com.abfeb8.app.users.dto.UpdateRequest;
 import com.abfeb8.app.users.dto.UserDto;
@@ -30,15 +29,15 @@ public class UserManagementController implements UserManagementApi {
         return ResponseEntity.ok(userService.getUser(username));
     }
 
-    @PostMapping("profile/update/{username}")
+    @PostMapping("profile/update")
     @Override
-    public ResponseEntity<UserDto> updateUserProfile(@PathVariable String username, @RequestBody UpdateRequest updateRequest) {
-        return ResponseEntity.ok(userService.updateUserProfile(username, updateRequest));
+    public ResponseEntity<UserDto> updateUserProfile(@RequestBody UpdateRequest updateRequest) {
+        return ResponseEntity.ok(userService.updateUserProfile(updateRequest));
     }
 
     @PostMapping("password/reset")
     @Override
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest resetRequest) {
+    public ResponseEntity<String> resetPassword(@RequestBody UpdateRequest resetRequest) {
         return ResponseEntity.ok(userService.resetPassword(resetRequest));
     }
 

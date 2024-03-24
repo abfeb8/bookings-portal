@@ -1,6 +1,5 @@
 package com.abfeb8.app.users.services.impl;
 
-import com.abfeb8.app.users.dto.PasswordResetRequest;
 import com.abfeb8.app.users.dto.RegistrationRequest;
 import com.abfeb8.app.users.dto.UpdateRequest;
 import com.abfeb8.app.users.dto.UserDto;
@@ -76,12 +75,13 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     @Override
-    public UserDto updateUserProfile(String userName, UpdateRequest updateRequest) {
-        if (userName == null || updateRequest == null) {
-            throw new RuntimeException("userName/updateRequest are required");
+    public UserDto updateUserProfile(UpdateRequest updateRequest) {
+        if (updateRequest == null || updateRequest.username() == null) {
+            throw new RuntimeException("username/updateRequest are required");
         }
 
-        return Optional.of(userName)
+        return Optional.of(updateRequest)
+                .map(UpdateRequest::username)
                 .map(this::getUserByUserName)
                 .map(userEntity -> updateUserContact(userEntity, updateRequest))
                 .map(userRepository::save)
@@ -104,7 +104,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
     }
 
     @Override
-    public String resetPassword(PasswordResetRequest resetRequest) {
+    public String resetPassword(UpdateRequest resetRequest) {
         if (resetRequest == null
                 || resetRequest.oldPassword() == null
                 || resetRequest.newPassword() == null
@@ -113,7 +113,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
         }
 
         var userEntity = Optional.of(resetRequest)
-                .map(PasswordResetRequest::username)
+                .map(UpdateRequest::username)
                 .map(this::getUserByUserName)
                 .filter(userEntity1 -> isValidateRequest(userEntity1, resetRequest))
                 .orElseThrow(() -> new RuntimeException("incorrect username/password"));
@@ -126,7 +126,7 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
                 .orElseThrow(() -> new RuntimeException("failed to update password"));
     }
 
-    private boolean isValidateRequest(UserEntity userEntity, PasswordResetRequest resetRequest) {
+    private boolean isValidateRequest(UserEntity userEntity, UpdateRequest resetRequest) {
         return bCryptPasswordEncoder.matches(
                 resetRequest.oldPassword(),
                 userEntity.getPassword()

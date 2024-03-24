@@ -1,6 +1,5 @@
 package com.abfeb8.app.users.controller.api.specs;
 
-import com.abfeb8.app.users.dto.PasswordResetRequest;
 import com.abfeb8.app.users.dto.RegistrationRequest;
 import com.abfeb8.app.users.dto.UpdateRequest;
 import com.abfeb8.app.users.dto.UserDto;
@@ -15,9 +14,9 @@ public interface UserManagementApi {
     ResponseEntity<UserDto> getUserProfile(String username);
 
     // Update Profile
-    ResponseEntity<UserDto> updateUserProfile(String username, UpdateRequest updateRequest);
+    ResponseEntity<UserDto> updateUserProfile(UpdateRequest updateRequest);
 
     // Password Reset
-    ResponseEntity<String> resetPassword(PasswordResetRequest resetRequest);
+    ResponseEntity<String> resetPassword(UpdateRequest resetRequest);
 
 }
