@@ -39,7 +39,7 @@ public class UserManagementController implements UserManagementApi {
     @PostMapping("password/reset")
     @Override
     public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest resetRequest) {
-        return null;
+        return ResponseEntity.ok(userService.resetPassword(resetRequest));
     }
 
 }

@@ -105,7 +105,32 @@ public class UserManagementServiceImpl implements UserManagementService, UserDet
 
     @Override
     public String resetPassword(PasswordResetRequest resetRequest) {
-        return null;
+        if (resetRequest == null
+                || resetRequest.oldPassword() == null
+                || resetRequest.newPassword() == null
+        ) {
+            throw new RuntimeException("invalid request, missing required parameter");
+        }
+
+        var userEntity = Optional.of(resetRequest)
+                .map(PasswordResetRequest::username)
+                .map(this::getUserByUserName)
+                .filter(userEntity1 -> isValidateRequest(userEntity1, resetRequest))
+                .orElseThrow(() -> new RuntimeException("incorrect username/password"));
+
+        userEntity.setPassword(bCryptPasswordEncoder.encode(resetRequest.newPassword()));
+
+        return Optional.of(userEntity)
+                .map(userRepository::save)
+                .map(usrE -> String.format("password updated for %s", usrE.getUsername()))
+                .orElseThrow(() -> new RuntimeException("failed to update password"));
+    }
+
+    private boolean isValidateRequest(UserEntity userEntity, PasswordResetRequest resetRequest) {
+        return bCryptPasswordEncoder.matches(
+                resetRequest.oldPassword(),
+                userEntity.getPassword()
+        );
     }
 
     @Override
